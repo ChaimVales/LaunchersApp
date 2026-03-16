@@ -1,0 +1,35 @@
+### Register
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+  "password": "123456",
+  "fullName": "ישראל "
+}
+
+### Login
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+  "fullName": "ישראל",
+  "password": "123456"
+}
+
+### Add Launcher
+POST http://localhost:5000/api/launchers   
+Content-Type: application/json
+
+{
+  "city": "טהרן",
+  "rocketType": "מצרר",
+  "latitude": 10,
+  "longitude": 15,
+  "name": " צפון"
+}
+
+### Get All Launchers
+GET http://localhost:5000/api/launchers
+
+### Get Launcher By ID
+GET http://localhost:5000/api/launchers/10
