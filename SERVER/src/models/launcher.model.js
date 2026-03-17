@@ -1,31 +1,25 @@
 const { getDB } = require('../config/db')
 const { ObjectId } = require('mongodb')
 
-
-// const collection = getDB.collection('launchers');
-const collection = 'launchers'
-
+function getCollection() {
+  return getDB().collection('launchers')
+}
 
 async function findAllLaunchers() {
-  const cursor = collection.find({});
-  const documents = await cursor.toArray();
-  return documents;
+  return getCollection().find({}).toArray()
 }
 
 async function findLauncherById(id) {
-  return collection().findOne({ _id: new ObjectId(id) })
+  return getCollection().findOne({ _id: new ObjectId(id) })
 }
 
 async function createLauncher(data) {
-  const result = await collection().insertOne(data)
-  console.log('Inserted ID:', result.insertedId);
+  const result = await getCollection().insertOne(data)
   return result
 }
 
 async function deleteLauncherById(id) {
-  const res = await collection.deleteOne({ _id: new ObjectId(id) })
-  console.log(res.deletedCount);
-  return res
+  return getCollection().deleteOne({ _id: new ObjectId(id) })
 }
 
 module.exports = { findAllLaunchers, findLauncherById, createLauncher, deleteLauncherById }

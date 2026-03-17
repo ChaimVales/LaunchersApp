@@ -1,17 +1,30 @@
 const { getDB } = require('../config/db')
 
-const collection = 'users'
+function getCollection() {
+  return getDB().collection('users')
+}
 
-
-
-async function findByFullName(fullname) {
-  return collection().findOne({fullname})
+async function findByUserType(user_type) {
+  return getCollection().findOne({ user_type })
 }
 
 async function createUser(userData) {
-  const result = await collection().insertOne(data)
-  console.log('Inserted ID:', result.insertedId);
+  const result = await getCollection().insertOne(userData)
   return result
 }
 
-module.exports = { findByFullName, createUser }
+async function putUser(userData) {
+  const role = userData.user_type
+  const result = await getCollection().updateOne(
+    { user_type: role },
+    { $set: userData }
+  );
+  return result
+}
+
+async function deleteUserByRole(role) {
+  return getCollection().deleteOne({ user_type: role })
+}
+
+
+module.exports = { findByUserType, createUser, putUser, deleteUserByRole }
