@@ -1,4 +1,4 @@
-const { createUser, findByUserType, putUser, deleteUserByRole } = require('../models/user.model')
+const { createUser, findByUserType, putUser, deleteUserByRole, findAllUsers, findByUserTypePassword } = require('../models/user.model')
 
 async function register(req, res) {
   try {
@@ -10,7 +10,7 @@ async function register(req, res) {
 
     const existing = await findByUserType(user_type)
     if (existing) {
-      return res.status(409).json({ message: 'user_type already exists' })
+      return res.status(400).json({ message: 'user_type already exists' })
     }
 
     const date = new Date();
@@ -22,9 +22,6 @@ async function register(req, res) {
     return res.status(500).json({ message: 'Server error', error: err.message })
   }
 }
-
-
-
 
 async function updateUser(req, res) {
   try {
@@ -55,28 +52,27 @@ async function deleteUser(req, res) {
   }
 }
 
+async function getAll(req, res) {
+  try {
+    const users = await findAllUsers()
+    res.status(200).json(users)
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message })
+  }
+}
 
 async function login(req, res) {
   try {
-    const d = new Date();
-    let text = d.toDateString();
-    const { fullName, password } = req.body
-
-    if (!password || !fullName) {
-      return res.status(400).json({ message: 'need password and fullName' })
+    const { user_type, password } = req.body
+    if (!user_type || !password) {
+      return res.status(400).json({ message: 'need user_type and password' })
     }
-
-    const user = await findByFullName(fullName)
-    if (!user) return res.status(404).json({ message: 'User not found' })
-
-    if (user.password !== password) {
-      return res.status(401).json({ message: 'Wrong password' })
-    }
-
-    return res.status(200).json({ message: 'Login successful', user: { id: user._id, fullName: user.fullName } })
+    const user = await findByUserTypePassword({user_type , password} )
+    if (!user) return res.status(404).json({ message: 'Incorrect details' })
+    return res.status(200).json({ message: true })
   } catch (err) {
     return res.status(500).json({ message: 'Server error', error: err.message })
   }
 }
 
-module.exports = { register, login, updateUser, deleteUser }
+module.exports = { register, login, updateUser, deleteUser, getAll }

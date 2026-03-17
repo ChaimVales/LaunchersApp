@@ -3,8 +3,8 @@ const express = require('express')
 const cors = require('cors')
 const { connectDB } = require('./src/config/db')
 
-const launcherRoutes = require('./src/routes/launcher.routes')
-const authRoutes = require('./src/routes/auth.routes')
+const launcherRoutes = require('./src/routes/launcher.routes.js')
+const authRoutes = require('./src/routes/auth.routes.js')
 
 const app = express()
 

@@ -3,10 +3,10 @@ POST http://localhost:3000/api/auth/register/create
 Content-Type: application/json
 
 {
-  "username": "ישראל ",
-  "password": "123456",
-  "email": "123456@gmail.com",
-  "user_type": "admin"
+  "username": "kuh ",
+  "password": "3039ejd",
+  "email": "1fewmop46@gmail.com",
+  "user_type": "agent"
 }
 
 ### update user
@@ -33,12 +33,9 @@ POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-  "fullName": "ישרשאל ",
-  "password": "1234563"
+  "user_type": "admin ",
+  "password": "123456"
 }
-
-
-
 
 
 
